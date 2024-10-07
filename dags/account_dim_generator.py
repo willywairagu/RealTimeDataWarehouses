@@ -6,7 +6,7 @@ from airflow import DAG
 from airflow.operators.empty import EmptyOperator
 from airflow.operators.python import PythonOperator
 
-start_date = datetime(2024, 10, 3)
+start_date = datetime(2024, 10, 7)
 defaultargs = {
     'owner': 'wairagu',
     'depends_on_past': False,

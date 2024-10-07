@@ -1,0 +1,33 @@
+{
+    "schemaName": "branch_dim",
+    "dimensionFieldSpecs": [
+      {
+        "name": "branch_id",
+        "dataType": "STRING"
+      },
+      {
+        "name": "branch_name",
+        "dataType": "STRING"
+      },
+      {
+        "name": "branch_address",
+        "dataType": "STRING"
+      },
+      {
+        "name": "city",
+        "dataType": "STRING"
+      },
+      {
+        "name": "region",
+        "dataType": "STRING"
+      },
+      {
+        "name": "postcode",
+        "dataType": "STRING"
+      },
+      {
+        "name": "opening_date",
+        "dataType": "TIMESTAMP"
+      }
+    ]
+  }

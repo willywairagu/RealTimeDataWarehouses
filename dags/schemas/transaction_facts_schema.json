@@ -1,0 +1,43 @@
+{
+    "schemaName": "transaction_facts",
+    "dimensionFieldSpecs": [
+      {
+        "name": "transaction_id",
+        "dataType": "STRING"
+      },
+      {
+        "name": "transaction_date",
+        "dataType": "TIMESTAMP"
+      },
+      {
+        "name": "account_id",
+        "dataType": "STRING"
+      },
+      {
+        "name": "customer_id",
+        "dataType": "STRING"
+      },
+      {
+        "name": "transaction_type",
+        "dataType": "STRING"
+      },
+      {
+        "name": "currency",
+        "dataType": "STRING"
+      },
+      {
+        "name": "branch_id",
+        "dataType": "STRING"
+      }
+    ],
+    "metricFieldSpecs": [
+      {
+        "name": "transaction_amount",
+        "dataType": "DOUBLE"
+      },
+      {
+        "name": "exchange_rate",
+        "dataType": "DOUBLE"
+      }
+    ]
+  }
