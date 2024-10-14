@@ -1,35 +1,41 @@
-import glob
-from typing import Any
+import random
+from datetime import datetime, timedelta 
 
-import requests
-from airflow.models import BaseOperator
-from airflow.utils.context import Context
-from airflow.utils.decorators import apply_defaults
+import pandas as pd
+from airflow import DAG
+from airflow.operators.empty import EmptyOperator
+from airflow.operators.python import PythonOperator
+from pinot_table_operator import PinotTableSubmitOperator 
 
+start_date = datetime(2024, 10, 7)
+default_args = {
+    "owner": "wairagu",
+    "depends_on_past": False,
+    "start_date": start_date,
+    "backfill": False
+} 
 
-class PinotTableSubmitOperator(BaseOperator):
-    @apply_defaults
-    def __init__(self, folder_path, pinot_url, *args, **kwargs):
-        super(PinotTableSubmitOperator, self).__init__(*args, **kwargs)
-        self.folder_path = folder_path
-        self.pinot_url = pinot_url
+with DAG(
+    'table_dag', 
+    description='A DAG to submit all table in a folder to Apache Pinot',
+    default_args=default_args,
+    schedule_interval=timedelta(days=1),
+    start_date=start_date,
+    tags=['table']
+) as dag:
+    
+    start = EmptyOperator(
+        task_id='start_task'
+    )
 
-    def execute(self, context: Context) -> Any:
-        try:
-            table_files = glob.glob(self.folder_path + '/*.json')
-            for table_file in table_files:
-                with open(table_file, 'r') as file:
-                    table_data = file.read()
+    submit_table = PinotTableSubmitOperator(
+        task_id='submit_tables',
+        folder_path='/opt/airflow/dags/tables',
+        pinot_url='http://pinot-controller:9000/tables'
+    )
 
-                    #define the headers and submit the post request to pinot
-                    headers = {'Content-Type': 'application/json'}
-                    response = requests.post(self.pinot_url, headers=headers, data=table_data)
+    end = EmptyOperator(
+        task_id='end_task'
+    )
 
-                    if response.status_code == 200:
-                        self.log.info(f'Table successfully submitted to Apache Pinot! {table_file}')
-                    else:
-                        self.log.error(f'Failed to submit table: {response.status_code} - {response.text}')
-                        raise Exception(f'Table submission failed with status code {response.status_code}')
-
-        except Exception as e:
-            self.log.error(f'An error occurred: {str(e)}')
+    start >> submit_table >> end 

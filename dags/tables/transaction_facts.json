@@ -1,0 +1,48 @@
+{
+    "tableName": "transaction_facts",
+    "tableType": "REALTIME",
+    "segmentsConfig": {
+      "timeColumnName": "transaction_date",
+      "timeType": "MILLISECONDS",
+      "replication": "1",
+      "schemaName": "transaction_facts"
+    },
+    "tenants": {
+      "broker": "DefaultTenant",
+      "server": "DefaultTenant"
+    },
+    "tableIndexConfig": {
+      "loadMode": "MMAP",
+      "invertedIndexColumns": ["transaction_type", "currency", "branch_id"],
+      "sortedColumn": ["transaction_id"]
+    },
+    "ingestionConfig": {
+      "streamIngestionConfig": {
+        "streamConfigMaps": [
+          {
+            "realtime.segment.flush.threshold.rows": "0",
+            "stream.kafka.decoder.prop.format": "json",
+            "key.serializer": "org.apache.kafka.common.serialization.StringSerializer",
+            "stream.kafka.decoder.class.name": "org.apache.pinot.plugin.stream.kafka.KafkaJSONMessageDecoder",
+            "streamType": "kafka",
+            "value.serializer": "org.apache.kafka.common.serialization.StringSerializer",
+            "stream.kafka.consumer.type": "LOWLEVEL",
+            "realtime.segment.flush.threshold.segment.rows": "500000",
+            "stream.kafka.broker.list": "kafka_broker:9092",
+            "realtime.segment.flush.threshold.time": "3600000",
+            "stream.kafka.consumer.factory.class.name": "org.apache.pinot.plugin.stream.kafka20.KafkaConsumerFactory",
+            "stream.kafka.consumer.prop.auto.offset.reset": "smallest",
+            "stream.kafka.topic.name": "transaction_facts"
+          }
+        ]
+      },
+      "transformConfigs": [],
+      "continueOnError": true,
+      "rowTimeValueCheck": true,
+      "segmentTimeValueCheck": false
+    },
+    "metadata": {
+      "customConfigs": {}
+    },
+    "isDimTable": false
+  }

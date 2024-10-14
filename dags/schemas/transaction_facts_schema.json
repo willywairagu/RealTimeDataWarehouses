@@ -6,10 +6,6 @@
         "dataType": "STRING"
       },
       {
-        "name": "transaction_date",
-        "dataType": "TIMESTAMP"
-      },
-      {
         "name": "account_id",
         "dataType": "STRING"
       },
@@ -38,6 +34,14 @@
       {
         "name": "exchange_rate",
         "dataType": "DOUBLE"
+      }
+    ],
+    "dateTimeFieldSpecs": [
+      {
+        "name": "transaction_date",
+        "dataType": "TIMESTAMP",
+        "format": "1:MILLISECONDS:EPOCH",
+        "granularity": "1:MILLISECONDS"
       }
     ]
   }

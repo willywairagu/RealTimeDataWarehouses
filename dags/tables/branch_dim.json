@@ -1,9 +1,9 @@
 {
-    "tableName": "customer_dim",
+    "tableName": "branch_dim",
     "tableType": "OFFLINE",
     "segmentsConfig": {
       "replication": "1",
-      "schemaName": "customer_dim"
+      "schemaName": "branch_dim"
     },
     "tenants": {
       "broker": "DefaultTenant",
@@ -11,8 +11,8 @@
     },
     "tableIndexConfig": {
       "loadMode": "MMAP",
-      "invertedIndexColumns": ["first_name", "last_name", "email"],
-      "sortedColumn": ["customer_id"]
+      "invertedIndexColumns": ["branch_name", "city", "region"],
+      "sortedColumn": ["branch_id"]
     },
     "ingestionConfig": {
       "batchIngestionConfig": {

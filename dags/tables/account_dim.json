@@ -1,0 +1,26 @@
+{
+    "tableName": "account_dim",
+    "tableType": "OFFLINE",
+    "segmentsConfig": {
+      "replication": "1",
+      "schemaName": "account_dim"
+    },
+    "tenants": {
+      "broker": "DefaultTenant",
+      "server": "DefaultTenant"
+    },
+    "tableIndexConfig": {
+      "loadMode": "MMAP",
+      "invertedIndexColumns": ["account_type", "status"],
+      "sortedColumn": ["account_id"]
+    },
+    "ingestionConfig": {
+      "batchIngestionConfig": {
+        "segmentIngestionType": "APPEND",
+        "segmentIngestionFrequency": "DAILY"
+      }
+    },
+    "metadata": {
+      "customConfigs": {}
+    }
+  }
